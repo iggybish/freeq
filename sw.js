@@ -1,4 +1,4 @@
-const CACHE_NAME = 'freeq-v1'
+const CACHE_NAME = 'freeq-v2'
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
