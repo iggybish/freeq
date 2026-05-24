@@ -2,28 +2,15 @@
   "name": "FreeQ",
   "short_name": "FreeQ",
   "description": "FreeQ frequency studio.",
-  "id": "/freeq/",
-  "start_url": "/freeq/",
-  "scope": "/freeq/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f3f6f1",
   "theme_color": "#101714",
   "icons": [
     {
-      "src": "/freeq/icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/freeq/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/freeq/favicon.svg",
+      "src": "./favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
