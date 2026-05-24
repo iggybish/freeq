@@ -1,10 +1,18 @@
-const CACHE_NAME = 'freeq-v6'
+const CACHE_PREFIX = 'freeq-'
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(['./'])),
-  )
   self.skipWaiting()
+  event.waitUntil(
+    caches
+      .keys()
+      .then((cacheNames) =>
+        Promise.all(
+          cacheNames
+            .filter((cacheName) => cacheName.startsWith(CACHE_PREFIX))
+            .map((cacheName) => caches.delete(cacheName)),
+        ),
+      ),
+  )
 })
 
 self.addEventListener('activate', (event) => {
@@ -14,32 +22,11 @@ self.addEventListener('activate', (event) => {
       .then((cacheNames) =>
         Promise.all(
           cacheNames
-            .filter((cacheName) => cacheName !== CACHE_NAME)
+            .filter((cacheName) => cacheName.startsWith(CACHE_PREFIX))
             .map((cacheName) => caches.delete(cacheName)),
         ),
-      ),
+      )
+      .then(() => self.registration.unregister()),
   )
   self.clients.claim()
-})
-
-self.addEventListener('fetch', (event) => {
-  const requestUrl = new URL(event.request.url)
-
-  if (event.request.method !== 'GET') {
-    return
-  }
-
-  if (requestUrl.origin !== self.location.origin) {
-    return
-  }
-
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        const copy = response.clone()
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy))
-        return response
-      })
-      .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./'))),
-  )
 })
